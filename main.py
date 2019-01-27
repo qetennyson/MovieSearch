@@ -1,4 +1,5 @@
 import movie_svc
+import requests
 
 def main():
     print_header()
@@ -19,10 +20,17 @@ def search_event_loop():
                 for r in results:
                     print(f'{r.year} -- {r.title}')
                 print()
+
         #TODO: Exception should handle individual errors.  Not simply say it didn't work for any reason.
         # Try removing Internet connectivity, OR searching for nothing.
-        except:
-            print("Whoops, that didn't work.")
+        except requests.exceptions.ConnectionError:
+            print(f'Error: Network Issue')
+        except ValueError:
+            print(f'Search text is required.')
+        except Exception as x:
+            #TODO: Demonstrate Exception as x, and type(), to diagnose errors.
+            #TODO: Demonstrate how a null search in the browser also breaks.
+            print(f"Whoops, that didn't work. Details{x}")
 
     print("exiting... ")
 

@@ -8,6 +8,11 @@ MovieResult = namedtuple(
 def find_movies(search_text):
     url = f'http://movie_service.talkpython.fm/api/search/{search_text}'
 
+    #TODO: Prevent empty searches
+    if not search_text or not search_text.strip():
+        #creating vs handling exceptions
+        raise ValueError("Search text is required")
+
     resp = requests.get(url)
     resp.raise_for_status()
 
