@@ -32,6 +32,8 @@ def search_event_loop():
             #TODO: Demonstrate how a null search in the browser also breaks.
             print(f"Whoops, that didn't work. Details{x}")
 
+        #TODO: Explain importance of specificity in errors coming first. Most -> Least
+
     print("exiting... ")
 
 if __name__ == '__main__':
