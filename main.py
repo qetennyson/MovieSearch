@@ -1,51 +1,25 @@
-import requests
-from collections import namedtuple
+import movie_svc
 
-#TODO: Offer user input for search
-search = 'capital'
-url = f'http://movie_service.talkpython.fm/api/search/{search}'
+def main():
+    print_header()
+    search_event_loop()
 
-#TODO: Expand on namedtuple
-MovieResult = namedtuple(
-    'MovieResult',
-    "imdb_code, title, duration, director, year, rating, imdb_score, keywords, genres")
+def print_header():
+    pass
 
+def search_event_loop():
+    search = 'ONCE_THROUGH_LOOP'
 
-# Use the requests library to pull the JSON data from the URL
-resp = requests.get(url)
+    while search != 'x':
+        search = input("Movie search text (x to exit): ")
+        if search != 'x':
+            results = movie_svc.find_movies(search)
+            print(f'Found {len(results)} results.')
+            for r in results:
+                print(f'{r.year} -- {r.title}')
+            print()
 
-# Raises an error for status codes that are not 200.
-# TODO: Go over status codes.
-resp.raise_for_status()
-print(resp.status_code)
+    print("exiting... ")
 
-# Could use resp.text(), but resp.json() is represented as a dict object in Python automagically.
-movie_data = resp.json()
-
-# Dictionary value for 'hits'
-movies_list = movie_data.get('hits')
-print(type(movies_list), movies_list)
-
-# Creating a new empty list for namedtuples of movies
-movies = []
-
-# Creates named tuples with keyword arguments from our dictionary object. (non-Pythonic)
-for md in movies_list:
-    m = MovieResult(
-        imdb_code=md.get('imdb_code'),
-        title=md.get('title'),
-        duration=md.get('duration'),
-        director=md.get('director'),
-        year=md.get('year'),
-        rating=md.get('rating'),
-        imdb_score=md.get('imdb_score'),
-        keywords=md.get('keywords'),
-        genres=md.get('genres'),
-    )
-    movies.append(m)
-
-# Displays movies
-print(f'Found {len(movies)} for search {search}')
-for m in movies:
-    print(f'{m.title} -- {m.year}')
-
+if __name__ == '__main__':
+    main()
